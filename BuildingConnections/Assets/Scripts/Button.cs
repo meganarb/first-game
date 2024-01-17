@@ -5,13 +5,14 @@ using UnityEngine;
 public class Button : MonoBehaviour
 {
     bool isPressed;
-    Rigidbody2D rigidbody2d;
 
-    public Transform gate;
+    public Transform gate = null;
     public bool vertical;
     public float speed;
     public float xMax;
     public float yMax;
+    public float xMin;
+    public float yMin;
    
     void Start()
     {
@@ -22,9 +23,10 @@ public class Button : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 position = gate.position;
+        Debug.Log(position);
         if (isPressed && vertical && position.y > yMax)
         {
-            position.y += speed * Time.deltaTime;
+            position.y -= speed * Time.deltaTime;
             gate.position = position;
         }
         else if (isPressed && !vertical && position.x > xMax)
@@ -32,10 +34,26 @@ public class Button : MonoBehaviour
             position.x -= speed * Time.deltaTime;
             gate.position = position;
         }
+        else if (!isPressed && vertical && position.y < yMin)
+        {
+            position.y += speed * Time.deltaTime;
+            gate.position = position;
+        }
+        else if (!isPressed && !vertical && position.x < xMin)
+        {
+            position.x += speed * Time.deltaTime;
+            gate.position = position;
+        }
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("button");
         isPressed = true;
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        isPressed = false;
     }
 }
