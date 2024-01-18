@@ -13,6 +13,9 @@ public class Button : MonoBehaviour
     public float yMax;
     public float xMin;
     public float yMin;
+    public SpriteRenderer sprite;
+    public Sprite pressed;
+    public Sprite notPressed;
    
     void Start()
     {
@@ -48,12 +51,13 @@ public class Button : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("button");
         isPressed = true;
+        sprite.sprite = pressed;
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
         isPressed = false;
+        sprite.sprite = notPressed;
     }
 }
